@@ -6,4 +6,5 @@ func Test() {
 
 func FirstFn(message string) string {
 	fmt.Println("hello, welcome to", message)
+	return message
 }

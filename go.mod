@@ -9,4 +9,6 @@ require (
 	rsc.io/sampler v1.3.0 // indirect
 )
 
-replace rsc.io/quote => ./test/replace.go
+// replace rsc.io/quote => ./replace
+
+replace rsc.io/quote => ./replace
