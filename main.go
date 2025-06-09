@@ -6,6 +6,7 @@ package main
 import (
 	"fmt"
 	"hhhhhhjs/test"
+	"hhhhhhjs/testError"
 )
 
 
@@ -15,6 +16,7 @@ func main() {
 	test.Test()
 	test.Node()
 	// test.FirstFn(message)
+	fmt.Println(testError1.GetName("喜羊羊"))
 }
 
 // init 函数在 package 初始化时执行，并且在 main 函数执行前执行
