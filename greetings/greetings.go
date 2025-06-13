@@ -1,6 +1,7 @@
 package main
 import (
 	"fmt"
+	"greetings/arraySlice"
 )
 
 // 切片
@@ -8,5 +9,9 @@ import (
 func main() {
 	var slice []string
 	fmt.Println(slice) // expeted: []
+
+	fmt.Println("arrayslice")
+	arraySlice.Slice()
+	arraySlice.Array()
 }
 
