@@ -35,6 +35,7 @@ func postAlbums(c *gin.Context) {
     var newAlbum album
     
     // 方法中需要传递变量的指针地址
+    // c.BindJSON 方法将前端传递的请求体中的数据反序列化到 newAlbum 中
     if err := c.BindJSON(&newAlbum); err != nil {
         return 
     }

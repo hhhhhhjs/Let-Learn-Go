@@ -1,4 +1,4 @@
-package ArraySlice
+package arrayslice
 
 import (
 	"fmt"

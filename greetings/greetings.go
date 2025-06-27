@@ -1,7 +1,7 @@
 package main
 import (
 	"fmt"
-	"greetings/arraySlice"
+	"greetings/arrayslice"
 )
 
 // 切片
@@ -11,7 +11,7 @@ func main() {
 	fmt.Println(slice) // expeted: []
 
 	fmt.Println("arrayslice")
-	arraySlice.Slice()
-	arraySlice.Array()
+	arrayslice.Slice()
+	arrayslice.Array()
 }
 
