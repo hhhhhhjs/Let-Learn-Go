@@ -19,7 +19,7 @@ func (p *Page) save() error {
 	// 如果使用 Page 则相当于拷贝了一份 Page, 修改之后并不会影响原对象
 	filename := p.Title + ".txt"
 	// 这里没有给文件路径，默认在文件的运行目录底下
-	return os.WriteFile(filename, p.Body, 0600)
+	return os.WriteFile(filename, p.Body, 0600) // 如果写入成功返回 nil,如果失败则返回错误信息
 }
 
 func loadPage(title string) (*Page, error) {
@@ -39,9 +39,9 @@ func handler(w http.ResponseWriter, r *http.Request) {
 
 
 func main() {
-	    http.HandleFunc("/", handler)
-    log.Fatal(http.ListenAndServe(":8080", nil))
+	http.HandleFunc("/", handler)
 	// 这里相当于 new 一个实例
+	fmt.Println("Hello, World!")
 	p1 := &Page{Title: "TestPage", Body: []byte("This is a sample Page.")}
 	// 使用实例对象上的方法
 	// 写文件，创建一个名为 TestPage 的 txt 文本文件从、
@@ -50,4 +50,5 @@ func main() {
 	p2, _ := loadPage("TestPage")
 	// 目的是想要打印一下文件中的内容
 	fmt.Println(string(p2.Body))
+	log.Fatal(http.ListenAndServe(":8080", nil))
 }
