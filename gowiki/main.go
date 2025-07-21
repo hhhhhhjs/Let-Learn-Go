@@ -2,9 +2,9 @@ package main
 
 import (
 	"fmt"
-	"os"
 	"log"
 	"net/http"
+	"os"
 )
 
 type Page struct {
@@ -34,21 +34,29 @@ func loadPage(title string) (*Page, error) {
 func handler(w http.ResponseWriter, r *http.Request) {
 	// 这里 w 作为第一个参数的作用是为了告诉编译器要通过 w 来将内容发送给浏览器
 	// w 是一个管道，stream
-    fmt.Fprintf(w, "Hi there, I love %s!", r.URL.Path[1:])
+	fmt.Fprintf(w, "Hi there, I love %s!", r.URL.Path[1:])
 }
 
+func viewHandler(w http.ResponseWriter, r *http.Request) {
+	title := r.URL.Path[len("/view/"):]
+	p, _ := loadPage(title)
+	fmt.Fprintf(w, "<h1>%s</h1><div>%s</div>", p.Title, p.Body)
+}
 
 func main() {
-	http.HandleFunc("/", handler)
+	// 服务器启动之后会阻塞程序，需要放在服务器启动之前执行
+	// var result = test.Test()
+	// fmt.Println(result)
+	http.HandleFunc("/view/", viewHandler)
 	// 这里相当于 new 一个实例
-	fmt.Println("Hello, World!")
-	p1 := &Page{Title: "TestPage", Body: []byte("This is a sample Page.")}
-	// 使用实例对象上的方法
-	// 写文件，创建一个名为 TestPage 的 txt 文本文件从、
-	p1.save()
-	// 读文件，读取文件中的内容
-	p2, _ := loadPage("TestPage")
-	// 目的是想要打印一下文件中的内容
-	fmt.Println(string(p2.Body))
+	// fmt.Println("Hello, World!")
+	// p1 := &Page{Title: "TestPage", Body: []byte("This is a sample Page.")}
+	// // 使用实例对象上的方法
+	// // 写文件，创建一个名为 TestPage 的 txt 文本文件从、
+	// p1.save()
+	// // 读文件，读取文件中的内容
+	// p2, _ := loadPage("TestPage")
+	// // 目的是想要打印一下文件中的内容
+	// fmt.Println(string(p2.Body))
 	log.Fatal(http.ListenAndServe(":8080", nil))
 }
