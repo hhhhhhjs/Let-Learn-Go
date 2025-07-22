@@ -5,6 +5,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"html/template"
 )
 
 type Page struct {
@@ -37,17 +38,62 @@ func handler(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "Hi there, I love %s!", r.URL.Path[1:])
 }
 
+// func viewHandler(w http.ResponseWriter, r *http.Request) {
+// 	title := r.URL.Path[len("/view/"):]
+// 	p, _ := loadPage(title)
+// 	fmt.Fprintf(w, "<h1>%s</h1><div>%s</div>", p.Title, p.Body)
+// }
+
+func renderTemplate(w http.ResponseWriter, tmpl string, p *Page) {
+    t, _ := template.ParseFiles(tmpl + ".html")
+    t.Execute(w, p)
+}
+
+// 修改 viewHandle 使用 html/template
 func viewHandler(w http.ResponseWriter, r *http.Request) {
 	title := r.URL.Path[len("/view/"):]
 	p, _ := loadPage(title)
-	fmt.Fprintf(w, "<h1>%s</h1><div>%s</div>", p.Title, p.Body)
+	// 在 go 中,不需要手动 import 引入文件，只需要引入 package，go 会自动找到文件
+	t, _ := template.ParseFiles("view.html")
+	t.Execute(w, p)
 }
+
+
+
+// func editHandler(w http.ResponseWriter, r *http.Request) {
+//     title := r.URL.Path[len("/edit/"):]
+//     p, err := loadPage(title)
+//     if err != nil {
+//         p = &Page{Title: title}
+//     }
+//     fmt.Fprintf(w, "<h1>Editing %s</h1>"+
+//         "<form action=\"/save/%s\" method=\"POST\">"+
+//         "<textarea name=\"body\">%s</textarea><br>"+
+//         "<input type=\"submit\" value=\"Save\">"+
+//         "</form>",
+//         p.Title, p.Title, p.Body)
+// }
+
+// 使用 html/template
+func editHandler(w http.ResponseWriter, r *http.Request) {
+    title := r.URL.Path[len("/edit/"):]
+    p, err := loadPage(title)
+    if err != nil {
+        p = &Page{Title: title}
+    }
+	// 在 go 中,不需要手动 import 引入文件，只需要引入 package，go 会自动找到文件
+    t, _ := template.ParseFiles("edit.html")
+    t.Execute(w, p)
+}
+
+
 
 func main() {
 	// 服务器启动之后会阻塞程序，需要放在服务器启动之前执行
 	// var result = test.Test()
 	// fmt.Println(result)
 	http.HandleFunc("/view/", viewHandler)
+    http.HandleFunc("/edit/", editHandler)
 	// 这里相当于 new 一个实例
 	// fmt.Println("Hello, World!")
 	// p1 := &Page{Title: "TestPage", Body: []byte("This is a sample Page.")}

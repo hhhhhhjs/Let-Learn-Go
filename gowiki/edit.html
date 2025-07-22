@@ -1,0 +1,7 @@
+<h1>Editing {{.Title}}</h1>
+
+<form action="/save/{{.Title}}" method="POST">
+<div><textarea name="body" rows="20" cols="80">{{printf "%s" .Body}}</textarea></div>
+<!-- 这里使用 printf 的作用是转义 .Body, 因为 Body 是 []byte 类型，需要转换为字符串 -->
+<div><input type="submit" value="Save"></div>
+</form>
